@@ -43,7 +43,7 @@ class CopilotModal extends Component<Props, State> {
     overlay: typeof NativeModules.RNSVGSvgViewManager !== 'undefined' ? 'svg' : 'view',
     // If animated was not specified, rely on the default overlay type
     animated: typeof NativeModules.RNSVGSvgViewManager !== 'undefined',
-    androidStatusBarVisible: true,
+    androidStatusBarVisible: false,
   };
 
   state = {
@@ -57,7 +57,7 @@ class CopilotModal extends Component<Props, State> {
   };
 
   componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.visible === false) {
+    if (this.props.visible === true && nextProps.visible === false) {
       this.reset();
     }
   }
@@ -93,7 +93,7 @@ class CopilotModal extends Component<Props, State> {
 
   async _animateMove(obj = {}): void {
     const layout = await this.measure();
-    if (this.props.androidStatusBarVisible && Platform.OS === 'android') {
+    if (!this.props.androidStatusBarVisible && Platform.OS === 'android') {
       obj.top -= StatusBar.currentHeight; // eslint-disable-line no-param-reassign
     }
 
