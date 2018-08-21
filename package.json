@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/okgrow/react-native-copilot.git"
+    "url": "git+https://github.com/keenvil/react-native-copilot.git"
   },
   "keywords": [
     "react-native",
