@@ -154,6 +154,11 @@ const copilot = ({
         this.eventEmitter.emit('stop');
       }
 
+      skip = async (): void => {
+        await this.setVisibility(false);
+        this.eventEmitter.emit('skip');
+      }
+
       startScroll = async (targetMeasure): void => {
         const whereToScroll =
           targetMeasure.y -
@@ -206,6 +211,7 @@ const copilot = ({
               next={this.next}
               prev={this.prev}
               stop={this.stop}
+              skip={this.skip}
               visible={this.state.visible}
               isFirstStep={this.isFirstStep()}
               isLastStep={this.isLastStep()}
