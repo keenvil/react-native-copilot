@@ -43,7 +43,7 @@ class CopilotModal extends Component<Props, State> {
     overlay: typeof NativeModules.RNSVGSvgViewManager !== 'undefined' ? 'svg' : 'view',
     // If animated was not specified, rely on the default overlay type
     animated: typeof NativeModules.RNSVGSvgViewManager !== 'undefined',
-    androidStatusBarVisible: false,
+    androidStatusBarVisible: true,
   };
 
   state = {
