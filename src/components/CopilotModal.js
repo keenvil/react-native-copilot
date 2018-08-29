@@ -203,6 +203,11 @@ class CopilotModal extends Component<Props, State> {
     this.props.stop();
   }
 
+  handleSkip = () => {
+    this.reset();
+    this.props.skip();
+  }
+
   renderMask() {
     /* eslint-disable global-require */
     const MaskComponent = this.props.overlay === 'svg'
@@ -238,6 +243,7 @@ class CopilotModal extends Component<Props, State> {
           handleNext={this.handleNext}
           handlePrev={this.handlePrev}
           handleStop={this.handleStop}
+          handleSkip={this.handleSkip}
         />
       </Animated.View>,
     ];
