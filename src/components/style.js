@@ -1,5 +1,5 @@
 // @flow
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export const STEP_NUMBER_RADIUS: number = 14;
 export const STEP_NUMBER_DIAMETER: number = STEP_NUMBER_RADIUS * 2;
@@ -76,6 +76,7 @@ export default StyleSheet.create({
     bottom: 0,
     right: 0,
   },
+
   overlayContainer: {
     position: 'absolute',
     left: 0,
@@ -83,4 +84,27 @@ export default StyleSheet.create({
     bottom: 0,
     right: 0,
   },
+
+  buttonWrapper: {
+    position: 'absolute',
+    top: Platform.OS === 'ios' ? 20 : 10,
+    right: 10,
+    zIndex: 2
+  },
+
+  modalButton: {
+    height: 35,
+    minWidth: 95,
+    paddingHorizontal: 20,
+    borderRadius: 6,
+    backgroundColor: 'rgba(255,255,255,1)',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  modalButtonText: {
+    fontFamily: 'Montserrat-Medium',
+    fontSize: 14,
+    color: '#7550c2'
+  }
 });
