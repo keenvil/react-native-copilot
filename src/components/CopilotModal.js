@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Animated, Easing, View, NativeModules, Modal, StatusBar, Platform } from 'react-native';
+import { Animated, Easing, View, NativeModules, Modal, StatusBar, Platform, TouchableOpacity, Text } from 'react-native';
 import Tooltip from './Tooltip';
 import styles, { MARGIN, ARROW_SIZE } from './style';
 
@@ -264,6 +264,17 @@ class CopilotModal extends Component<Props, State> {
           style={styles.container}
           onLayout={this.handleLayoutChange}
         >
+          <View style={styles.buttonWrapper}>
+              <TouchableOpacity
+                hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}
+                style={styles.modalButton}
+                onPress={this.handleSkip}
+              >
+                <Text style={styles.modalButtonText}>
+                  Saltar
+                </Text>
+              </TouchableOpacity>
+            </View>
           {contentVisible && this.renderMask()}
           {contentVisible && this.renderTooltip()}
         </View>
