@@ -1,5 +1,5 @@
 // @flow
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, Dimensions } from 'react-native';
 
 export const STEP_NUMBER_RADIUS: number = 14;
 export const STEP_NUMBER_DIAMETER: number = STEP_NUMBER_RADIUS * 2;
@@ -7,6 +7,20 @@ export const ZINDEX: number = 100;
 export const MARGIN: number = 13;
 export const OFFSET_WIDTH: number = 4;
 export const ARROW_SIZE: number = 6;
+
+const isIphoneX = () => {
+  const { height, width } = Dimensions.get('window');
+
+  return (
+    // This has to be iOS duh
+    Platform.OS === 'ios' &&
+
+    // Accounting for the height in either orientation
+    ( height === 812 || width === 812 )
+  );
+};
+
+const topMargin = Platform.OS === 'ios' ? (isIphoneX() ? 50 : 30) : 10;
 
 export default StyleSheet.create({
   container: {
@@ -64,7 +78,7 @@ export default StyleSheet.create({
     color: '#27ae60',
   },
   bottomBar: {
-    marginTop: 10,
+    marginTop: 15,
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
@@ -87,7 +101,7 @@ export default StyleSheet.create({
 
   buttonWrapper: {
     position: 'absolute',
-    top: Platform.OS === 'ios' ? 20 : 10,
+    top: topMargin,
     right: 10,
     zIndex: 2
   },
