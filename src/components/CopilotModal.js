@@ -2,7 +2,9 @@
 import React, { Component } from 'react';
 import { Animated, Easing, View, NativeModules, Modal, StatusBar, Platform, TouchableOpacity, Text } from 'react-native';
 import Tooltip from './Tooltip';
-import styles, { MARGIN, ARROW_SIZE } from './style';
+import StepNumber from './StepNumber';
+import styles, { MARGIN, ARROW_SIZE, STEP_NUMBER_DIAMETER, STEP_NUMBER_RADIUS } from './style';
+import type { SvgMaskPathFn } from '../types';
 
 type Props = {
   stop: () => void,
@@ -16,9 +18,14 @@ type Props = {
   easing: ?func,
   animationDuration: ?number,
   tooltipComponent: ?React$Component,
+  tooltipStyle?: Object,
+  stepNumberComponent: ?React$Component,
   overlay: 'svg' | 'view',
   animated: boolean,
   androidStatusBarVisible: boolean,
+  backdropColor: string,
+  labels: Object,
+  svgMaskPath?: SvgMaskPathFn,
 };
 
 type State = {
@@ -39,11 +46,15 @@ class CopilotModal extends Component<Props, State> {
     easing: Easing.elastic(0.7),
     animationDuration: 400,
     tooltipComponent: Tooltip,
+    tooltipStyle: {},
+    stepNumberComponent: StepNumber,
     // If react-native-svg native module was avaialble, use svg as the default overlay component
     overlay: typeof NativeModules.RNSVGSvgViewManager !== 'undefined' ? 'svg' : 'view',
     // If animated was not specified, rely on the default overlay type
     animated: typeof NativeModules.RNSVGSvgViewManager !== 'undefined',
     androidStatusBarVisible: true,
+    backdropColor: 'rgba(0, 0, 0, 0.4)',
+    labels: {},
   };
 
   state = {
@@ -214,7 +225,6 @@ class CopilotModal extends Component<Props, State> {
       ? require('./SvgMask').default
       : require('./ViewMask').default;
     /* eslint-enable */
-
     return (
       <MaskComponent
         animated={this.props.animated}
@@ -224,6 +234,8 @@ class CopilotModal extends Component<Props, State> {
         position={this.state.position}
         easing={this.props.easing}
         animationDuration={this.props.animationDuration}
+        backdropColor={this.props.backdropColor}
+        svgMaskPath={this.props.svgMaskPath}
       />
     );
   }
@@ -235,7 +247,7 @@ class CopilotModal extends Component<Props, State> {
 
     return [
       <Animated.View key="arrow" style={[styles.arrow, this.state.arrow]} />,
-      <Animated.View key="tooltip" style={[styles.tooltip, this.state.tooltip]}>
+      <Animated.View key="tooltip" style={[styles.tooltip, this.props.tooltipStyle, this.state.tooltip]}>
         <TooltipComponent
           isFirstStep={this.props.isFirstStep}
           isLastStep={this.props.isLastStep}
@@ -244,6 +256,7 @@ class CopilotModal extends Component<Props, State> {
           handlePrev={this.handlePrev}
           handleStop={this.handleStop}
           handleSkip={this.handleSkip}
+          labels={this.props.labels}
         />
       </Animated.View>,
     ];
@@ -259,6 +272,7 @@ class CopilotModal extends Component<Props, State> {
         visible={containerVisible}
         onRequestClose={noop}
         transparent
+        supportedOrientations={['portrait', 'landscape']}
       >
         <View
           style={styles.container}
